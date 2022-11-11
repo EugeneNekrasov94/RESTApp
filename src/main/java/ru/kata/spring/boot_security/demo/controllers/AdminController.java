@@ -7,24 +7,23 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 
 @Controller
 public class AdminController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public AdminController(UserService userService) {
-        this.userService = userService;
+    public AdminController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping(value = "/admin")
     public String listUsers(ModelMap model) {
-        model.addAttribute("users", this.userService.findAll());
-        this.userService.findAll().forEach(System.out::println);
+        model.addAttribute("users", this.userServiceImpl.findAll());
+        this.userServiceImpl.findAll().forEach(System.out::println);
         return "admin";
     }
 
@@ -36,26 +35,26 @@ public class AdminController {
 
     @PostMapping("user-create")
     public String createUser(User user) {
-        userService.addUser(user);
+        userServiceImpl.addUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("user-delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUserById(id);
+        userServiceImpl.deleteUserById(id);
         return "redirect:/admin";
     }
 
     @GetMapping("user-update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model modelMap) {
-        User user = userService.findUserById(id);
+        User user = userServiceImpl.findUserById(id);
         modelMap.addAttribute("user", user);
         return "/user-update";
     }
 
     @PostMapping("user-update")
     public String updateUser(User user) {
-        userService.updateUser(user.getId(), user);
+        userServiceImpl.updateUser(user.getId(), user);
         return "redirect:/admin";
     }
 
