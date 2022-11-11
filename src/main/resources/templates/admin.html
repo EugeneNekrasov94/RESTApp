@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-<div th:switch="${user}">
-    <h2 th:case="null">No info found!</h2>
+<div th:switch="${users}">
+    <h2 th:case="null">No users found!</h2>
     <div th:case="*">
-        <h2>User</h2>
+        <h2>Users</h2>
         <table>
             <thead>
             <tr>
@@ -20,17 +20,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr th:each="user : ${users}">
                 <td th:text="${user.getId()}"></td>
                 <td th:text="${user.getName()}"></td>
                 <td th:text="${user.getSurname()}"></td>
                 <td th:text="${user.getAge()}"></td>
+                <td><a th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
+                <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
-        <a href="/logout">Log out</a>
     </div>
+    <p><a href="/user-create">Create User</a></p>
+    <p><a href="/logout">Log out</a></p>
 </div>
-
 </body>
 </html>
