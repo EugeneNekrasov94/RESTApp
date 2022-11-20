@@ -13,6 +13,6 @@ import javax.persistence.EntityManager;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
-    @Query("select u from User u join fetch u.roles where u.name = :name")
-    User findUserByName(String name);
+    @Query("select u from User u join fetch u.roles where u.email = :email")
+    User findUserByEmail(String email);
 }
