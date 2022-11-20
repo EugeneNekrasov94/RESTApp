@@ -1,227 +1,179 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
 
-    <script type="text/javascript" src="../static/main.js" th:src="@{main.js}"></script>
-    <title>Title</title>
+    <title>Admin panel</title>
 </head>
 <body>
+<!--Навигация-->
+<nav class="navbar navbar-light bg-dark">
+    <a class="navbar-brand ">
+        <span class="text-white font-weight-bold" th:text="${user.email}"></span>
+        <span class="text-white">  with roles: </span>
+        <span class="text-white" th:text="${user.getRolesInfo()}"></span>
+    </a>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-        <p class="navbar-brand text-white">
-            <b><span class="align-middle" th:text="${user.getEmail()}"></span></b>
-            <span class="align-middle">with roles:</span>
-            <span class="align-middle" th:text="${user.getRolesInfo()}"></span>
-        </p>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-dark text-secondary">Logout</button>
-        </form>
-    </div>
+    <form class="form-inline" th:action="@{/logout}" method="post">
+        <button class="btn btn-dark text-secondary " type="submit">Log out</button>
+    </form>
 </nav>
-<div class="d-flex align-items-start">
-    <div class="nav flex-column nav-pills me-3 col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab"
-           aria-controls="v-pills-home" aria-selected="true">Admin</a>
-        <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab"
-           aria-controls="v-pills-profile" aria-selected="false">User</a>
-    </div>
-    <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-            <nav class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab"
-                   aria-controls="nav-home" aria-selected="true">Users table</a>
-                <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab"
-                   aria-controls="nav-profile" aria-selected="false">New User</a>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
-                     th:switch="${users}">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="user : ${users}">
-                            <td th:text="${user.getId()}"></td>
-                            <td th:text="${user.getName()}"></td>
-                            <td th:text="${user.getSurname()}"></td>
-                            <td th:text="${user.getAge()}"></td>
-                            <td th:text="${user.getEmail()}"></td>
-                            <td th:text="${user.getRolesInfo()}"></td>
-
-                            <td>
-                                <a class="btn btn-info" data-bs-toggle="modal">Edit</a>
-
-                                <div class="modal fade" id="editModal" tabindex="-1"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <form th:action="@{/user-update.html}" th:object="${user}" method="post">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                               class="col-form-label lead">ID:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="id">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                               class="col-form-label font-weight-bold ">First
-                                                            Name:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="name">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Last
-                                                            Name:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="surname">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Age:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="age">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                               class="col-form-label">E-mail:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="email">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                               class="col-form-label">Password:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="password">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Role:</label>
-                                                        <input type="text" class="form-control" id="recipient-name"
-                                                               name="roles">
-                                                    </div>
-
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary">Edit</button>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </form>
-                                </div>
-                                <a th:href="@{user-update/{id}(id=${user.id})}">Edit</a>
-                            </td>
-                            <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <h1 th:case="null">No users found!</h1>
-                    <div th:case="*">
-                        <h2>User information page</h2>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Age</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.getId()}"></td>
-                                <td th:text="${user.getName()}"></td>
-                                <td th:text="${user.getSurname()}"></td>
-                                <td th:text="${user.getAge()}"></td>
-                                <td th:text="${user.getEmail()}"></td>
-                                <td th:text="${user.getRolesInfo()}"></td>
-
-                                <td><a th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
-                                <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p><a href="/user-create">Create User</a></p>
-                    <p><a href="/logout">Log out</a></p>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Lorem
-                    ipsum dolor sit amet, consectetur adipisicing elit. Magni, natus sed soluta necessitatibus tempore
-                    aspernatur? Praesentium, odit explicabo distinctio dolore adipisci officia iure, ut magnam optio
-                    aliquam at similique veritatis.
-                </div>
+<!--Вертикальные табы-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 p-0 py-3 vh-100 d-inline-block">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-admin" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-user" role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
             </div>
-
         </div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-            <div th:switch="${user}" id="one">
-                <h2 th:case="null">No info found!</h2>
-                <div th:case="*">
-                    <h2>User</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Age</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td th:text="${user.getId()}"></td>
-                            <td th:text="${user.getName()}"></td>
-                            <td th:text="${user.getSurname()}"></td>
-                            <td th:text="${user.getAge()}"></td>
-                            <td th:text="${user.getEmail()}"></td>
-                            <td th:text="${user.getRolesInfo()}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <a href="/logout">Log out</a>
+        <div class="flex-column col-10 " style="background:#f8f9fa">
+            <div class="tab-content" id="v-pills-tabContent">
+                <!--Вкладка админ-->
+                <div class="tab-pane fade show active ml-3" id="v-pills-admin" role="tabpanel"
+                     aria-labelledby="v-pills-home-tab">
+                    <h1 class="">Admin panel</h1>
+                    <!--Табы с таблицей и добавлением юзера-->
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-table-tab" data-toggle="tab" href="#nav-table"
+                               role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
+                            <a class="nav-item nav-link" id="nav-adding-tab" data-toggle="tab" href="#nav-adding"
+                               role="tab" aria-controls="nav-profile" aria-selected="false">New User</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <!--Таблица-->
+                        <div class="tab-pane fade show active" id="nav-table" role="tabpanel"
+                             aria-labelledby="nav-home-tab">
+                            <table class="table table-striped" th:switch="users">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.getId()}"></td>
+                                    <td th:text="${user.getName()}"></td>
+                                    <td th:text="${user.getSurname()}"></td>
+                                    <td th:text="${user.getAge()}"></td>
+                                    <td th:text="${user.getEmail()}"></td>
+                                    <td th:text="${user.getRolesInfo()}"></td>
+
+                                    <td>
+                                        <a class="btn btn-info" data-bs-toggle="modal">Edit</a>
+
+                                        <div class="modal fade" id="editModal" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <form th:action="@{/user-update.html}" th:object="${user}" method="post">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                       class="col-form-label lead">ID:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="id">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                       class="col-form-label font-weight-bold ">First
+                                                                    Name:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Last
+                                                                    Name:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="surname">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Age:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="age">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                       class="col-form-label">E-mail:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="email">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                       class="col-form-label">Password:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="password">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Role:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                       name="roles">
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Edit</button>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <a th:href="@{user-update/{id}(id=${user.id})}">Edit</a>
+                                    </td>
+                                    <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Добавление юзера-->
+                        <div class="tab-pane fade" id="nav-adding" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            ...bbb
+                        </div>
+                    </div>
+
+                </div>
+                <!--Вкладка юзер-->
+                <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-profile-tab">///
+                    <h1>AAAAAAAAAAAAAAAAAA</h1>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 </body>
 </html>
