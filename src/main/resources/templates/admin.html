@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <script type="text/javascript" src="webjars/jquery/3.6.1/dist/jquery.js"></script>
+    <script type="text/javascript" src="../static/main.js" th:src="@{/main.js}"></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
-    <script type="text/javascript" src="../static/main.js" th:src="@{/static/main.js}"></script>
 
     <title>Admin panel</title>
 </head>
@@ -75,62 +77,69 @@
                                     <td th:text="${user.getRolesInfo()}"></td>
 
                                     <td>
-                                        <!--Модальное окно-->
-                                        <a class="btn btn-info">Edit</a>
-
-                                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editLabel">Edit user</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body text-center font-weight-bold">
-                                                        <form th:action="@{/user-update}" method="post">
-                                                            <div class="form-group">
-                                                                <label for="id-name" class="col-form-label" >ID</label>
-                                                                <input type="text" class="form-control" id="id-name" name="idEdit">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="fn-name" class="col-form-label ">First Name</label>
-                                                                <input type="text" class="form-control" id="fn-name" name="fnEDit">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="ln-name" class="col-form-label">Last Name</label>
-                                                                <input type="text" class="form-control" id="ln-name" name="lnEdit">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="age-name" class="col-form-label">Age</label>
-                                                                <input type="text" class="form-control" id="age-name" name="ageEdit">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="email-name" class="col-form-label">Email</label>
-                                                                <input type="text" class="form-control" id="email-name" name="emailEdit">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="password-name" class="col-form-label">Password</label>
-                                                                <input type="text" class="form-control" id="password-name" name="passwordEdit">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="role-name" class="col-form-label">Role</label>
-                                                                <input type="text" class="form-control" id="role-name" name="roleEdit">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Send message</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <a  th:href="@{getOne/(id=${user.id})}" class="btn btn-info">Edit
+                                        </a>
                                     </td>
-                                    <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
+                                    <td>
+                                        <button th:href="@{user-delete/{id}(id=${user.id})}">Delete</button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <!--Модальное окно-->
+                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <form th:action="@{/user-update/}" th:object="${user}" method="put">
+
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="idEdit" class="col-form-label">Id</label>
+                                                <input type="text" class="form-control" id="idEdit" name="idEdit" th:field="*{id}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fnEdit" class="col-form-label">First Name</label>
+                                                <input type="text" class="form-control" id="fnEdit"  name="fnEdit" th:field="*{name}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="lnEdit" class="col-form-label">Last Name</label>
+                                                <input type="text" class="form-control" id="lnEdit"  name="lnEdit" th:field="*{surname}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ageEdit" class="col-form-label">Age</label>
+                                                <input type="text" class="form-control" id="ageEdit"  name="ageEdit"  th:field="*{age}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="emailEdit" class="col-form-label">Email</label>
+                                                <input type="text" class="form-control" id="emailEdit"  name="emailEdit"  th:field="*{email}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="passwordEdit" class="col-form-label">Password</label>
+                                                <input type="text" class="form-control" id="passwordEdit"  name="passwordEdit"  th:field="*{password}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="roleEdit" class="col-form-label">Role</label>
+                                                <input type="text" class="form-control" id="roleEdit"  name="roleEdit"  th:field="*{roles}">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <!--Добавление юзера-->
                         <div class="tab-pane fade" id="nav-adding" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -148,14 +157,12 @@
     </div>
 </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>
