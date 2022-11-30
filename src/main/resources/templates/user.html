@@ -5,40 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><head>
-    <title>Spring Security Example</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
+    <title>User page</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-<div th:switch="${user}" id="one">
-    <h2 th:case="null">No info found!</h2>
-    <div th:case="*">
-        <h2>User</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Age</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td th:text="${user.getId()}"></td>
-                <td th:text="${user.getName()}"></td>
-                <td th:text="${user.getSurname()}"></td>
-                <td th:text="${user.getAge()}"></td>
-                <td th:text="${user.getEmail()}"></td>
-                <td th:text="${user.getRolesInfo()}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <a href="/logout">Log out</a>
+<nav class="navbar navbar-light bg-dark">
+    <a class="navbar-brand ">
+        <span class="text-white font-weight-bold" th:text="${user.email}"></span>
+        <span class="text-white">  with roles: </span>
+        <span class="text-white" th:text="${user.getRolesInfo()}"></span>
+    </a>
+
+    <form class="form-inline" th:action="@{/logout}" method="post">
+        <button class="btn btn-dark text-secondary " type="submit">Log out</button>
+    </form>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 p-0 py-3 vh-100 d-inline-block">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">User</a>
+            </div>
+        </div>
+        <div class="col-10" style="background:#f8f9fa">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                     aria-labelledby="v-pills-home-tab">
+                    <h1 class="my-3">User information-page</h1>
+                    <div class="container-fluid border">
+                        <div class="row " style="background-color: #f7f7f7">
+                            <h5 class="ml-4 my-2">About user</h5>
+                        </div>
+                        <div class="row " style="background-color: #ffffff">
+                            <table class="table table-striped mx-3" th:switch="users">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Role</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:object="${user}">
+                                    <td th:text="*{id}"></td>
+                                    <td th:text="*{name}"></td>
+                                    <td th:text="*{surname}"></td>
+                                    <td th:text="*{age}"></td>
+                                    <td th:text="*{email}"></td>
+                                    <td th:text="*{getRolesInfo()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
