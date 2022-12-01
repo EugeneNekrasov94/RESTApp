@@ -28,14 +28,14 @@ public class AdminController {
         return "admin";
     }
 
-    @RequestMapping(value = "/user-create",method = {RequestMethod.POST,RequestMethod.GET})
+    @PostMapping(value = "/user-create")
     public String createUser( User user,Model model) {
         userService.addUser(user);
         model.addAttribute("userAdd",user);
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/user-delete",method = {RequestMethod.DELETE,RequestMethod.GET})
+    @PostMapping(value = "/user-delete")
     public String deleteUser(Model model,User user) {
         userService.deleteUserById(user.getId());
         model.addAttribute("userDel",user);
@@ -43,7 +43,7 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "/user-update", method = {RequestMethod.PATCH, RequestMethod.GET})
+    @PostMapping(value = "/user-update")
     public String updateUser(User user, Model modelMap) {
         userService.updateUser(user.getId(), user);
         modelMap.addAttribute("userEdit", user);
