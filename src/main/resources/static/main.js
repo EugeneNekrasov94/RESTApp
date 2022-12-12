@@ -19,20 +19,5 @@ $('document').ready(function () {
 
     });
 
-    $('.table .delBtn').click(function (event) {
-        event.preventDefault();
 
-        var href = $(this).attr('href');
-        $.get(href,function (user,status){
-            $('#idDelete').val(user.id);
-
-            $('#fnDelete').val(user.name);
-            $('#lnDelete').val(user.surname);
-            $('#ageDelete').val(user.age);
-            $('#emailDelete').val(user.email);
-            $('#roleDelete').val(user.roles);
-        });
-
-        $('#deleteModal').modal();
-    });
 });

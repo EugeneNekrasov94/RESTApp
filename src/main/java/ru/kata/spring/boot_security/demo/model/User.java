@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +33,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Column(name = "roles")
+
     private Set<Role> roles = new HashSet<>();
 
     public User() {

@@ -13,9 +13,9 @@
 <body>
 <nav class="navbar navbar-light bg-dark">
     <a class="navbar-brand ">
-        <span class="text-white font-weight-bold" th:text="${user.email}"></span>
+        <span class="text-white font-weight-bold" id="navEmail"></span>
         <span class="text-white">  with roles: </span>
-        <span class="text-white" th:text="${user.getRolesInfo()}"></span>
+        <span class="text-white" id="navRole"></span>
     </a>
 
     <form class="form-inline" th:action="@{/logout}" method="post">
@@ -40,7 +40,7 @@
                             <h5 class="ml-4 my-2">About user</h5>
                         </div>
                         <div class="row " style="background-color: #ffffff">
-                            <table class="table table-striped mx-3" th:switch="users">
+                            <table class="table table-striped mx-3">
                                 <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -52,16 +52,7 @@
 
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr th:object="${user}">
-                                    <td th:text="*{id}"></td>
-                                    <td th:text="*{name}"></td>
-                                    <td th:text="*{surname}"></td>
-                                    <td th:text="*{age}"></td>
-                                    <td th:text="*{email}"></td>
-                                    <td th:text="*{getRolesInfo()}"></td>
-                                </tr>
-                                </tbody>
+                                <tbody id="userPanelBody"></tbody>
                             </table>
                         </div>
                     </div>
@@ -80,5 +71,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="/UserPage.js"></script>
 </body>
 </html>
